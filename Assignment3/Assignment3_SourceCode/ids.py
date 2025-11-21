@@ -175,14 +175,13 @@ def startActivityEngine(
     with open(logFilename, "w") as f:
         f.write("Day:Event:Value\n")
         for day in range(1, numOfDays+1):
-            if day%10 == 0 or day == 1 or day == numOfDays:
-                print(f"[INFO] Generating events for day {day}/{numOfDays}:")
-                for name, event in events.items():
-                    if name not in stats:
-                        continue
-                    stat = stats[name]
-                    value = valueGenerator(event, stat)
-                    f.write(f"{day}:{name}:{value}\n")
+            print(f"[INFO] Generating events for day {day}/{numOfDays}:")
+            for name, event in events.items():
+                if name not in stats:
+                    continue
+                stat = stats[name]
+                value = valueGenerator(event, stat)
+                f.write(f"{day}:{name}:{value}\n")
     print(f"[INFO] Activity engine finished. Logs have been written into: {logFilename}")
 
 # Analysis engine
@@ -297,8 +296,8 @@ def startAlertEngine(
                     deviation = abs((val - base.mean) / base.stdDev)
                     counter += deviation * event.weight
             
-            status = "FLAGGED" if counter >= threshold else "OK"
-            print(f"[Day {day}]: counter={counter:.2f} -> {status}")
+                status = "FLAGGED" if counter >= threshold else "OK"
+                print(f"[Day {day}]: Event name: [{event.name}] counter={counter:.2f} -> {status}")
 
 # Main
 def main(argv: List[str]) -> None:
